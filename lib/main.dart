@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:smart_todo_list/services/theme_services.dart';
 import 'package:smart_todo_list/ui/home_page.dart';
 import 'package:smart_todo_list/ui/theme.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
   runApp(const MyApp());
 }
 
@@ -12,12 +17,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Smart To-Do',
       theme: Themes.light,
       darkTheme: Themes.dart,
-      themeMode: ThemeMode.light,
+      themeMode: ThemeService().themeMode,
 
       home: const HomePage(),
     );

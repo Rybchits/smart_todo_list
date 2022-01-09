@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:smart_todo_list/services/theme_services.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -24,7 +23,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Theme.of(context).primaryColor,
       leading: GestureDetector(
         onTap: (){
-          log('ThemeMode changed');
+          ThemeService().switchTheme();
         },
         child: Icon(Icons.nightlight_round, size: 20),
       ),
