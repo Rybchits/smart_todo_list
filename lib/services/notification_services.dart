@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
   static final NotificationService _notificationService = NotificationService._internal();
@@ -51,7 +53,32 @@ class NotificationService {
   }
 
   void onDidReceiveLocalNotification( int id, String? title, String? body, String? payload) async {
-    Get.dialog(Text('Hello from IOS Notification'));
+    Get.dialog(const Text('Hello from IOS Notification'));
+  }
+
+
+  // Простые запланированные уведомления. Приходят через 5 секунд
+  simpleScheduledNotification() async {
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        0,
+        'Запланированное уведомление',
+        'Уведомление было запланировано 5 секунд назад',
+        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
+
+        const NotificationDetails(
+            android: AndroidNotificationDetails(
+                'Channel Id',
+                'My channel',
+                channelDescription: 'Channel for smart ToDo List',
+                importance: Importance.max,
+                priority: Priority.high
+            )
+        ),
+
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime);
+
   }
 
 

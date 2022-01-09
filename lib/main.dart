@@ -5,10 +5,13 @@ import 'package:get_storage/get_storage.dart';
 import 'package:smart_todo_list/services/theme_services.dart';
 import 'package:smart_todo_list/ui/home_page.dart';
 import 'package:smart_todo_list/ui/theme.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
+  tz.initializeTimeZones();
   runApp(const MyApp());
 }
 
