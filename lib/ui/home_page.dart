@@ -37,10 +37,15 @@ class _HomePageState extends State<HomePage> {
               title: 'Тема приложения была изменена!',
               body: Get.isDarkMode? 'Была активирована светлая тема!' : 'Была активирована темная тема!');
         },
-        child: const Icon(Icons.nightlight_round, size: 20),
+        child: Icon(
+            Get.isDarkMode? Icons.wb_sunny_rounded : Icons.nightlight_round,
+            size: 30),
       ),
       actions: const [
-        Icon(Icons.person, size: 20),
+        CircleAvatar(
+            backgroundImage: AssetImage('assets/images/default_user_image.png'),
+            backgroundColor: Colors.white,
+            radius: 22),
         SizedBox(width: 20)
       ],
     );
