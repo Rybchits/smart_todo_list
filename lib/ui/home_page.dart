@@ -5,6 +5,7 @@ import 'package:smart_todo_list/services/notification_services.dart';
 import 'package:smart_todo_list/services/theme_services.dart';
 import 'package:smart_todo_list/ui/theme.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:smart_todo_list/ui/widgets/button.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -28,18 +29,18 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: _appBar(),
       body: Column(children: [
-        Row(children: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(DateFormat.yMMMMd('ru').format(DateTime.now()), style: subHeadingStyle),
-                  Text('Сегодня', style: headingStyle)
-                ]
-            ),
-          )
-        ])
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 15),
+          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(DateFormat.yMMMMd('ru').format(DateTime.now()), style: subHeadingStyle),
+                      Text('Сегодня', style: headingStyle)
+                    ]),
+                CustomButton(text: '+ Добавить', onTab: () => null),
+              ]),
+        )
       ]),
     );
   }
