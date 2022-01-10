@@ -12,11 +12,13 @@ const Color darkHeaderClr = Color(0xFF424242);
 class Themes{
 
   static final light = ThemeData(
+      backgroundColor: white,
       primaryColor: bluishClr,
       brightness: Brightness.light
   );
 
   static final dart = ThemeData(
+      backgroundColor: darkGreyClr,
       primaryColor: darkGreyClr,
       brightness: Brightness.dark
   );
