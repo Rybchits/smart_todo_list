@@ -37,8 +37,27 @@ TextStyle get subHeadingStyle {
 TextStyle get headingStyle {
   return GoogleFonts.lato(
       textStyle: const TextStyle(
-          fontSize: 30,
+          fontSize: 28,
           fontWeight: FontWeight.bold
+      )
+  );
+}
+
+TextStyle get titleStyle {
+  return GoogleFonts.lato(
+      textStyle: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+      )
+  );
+}
+
+TextStyle get subTitleStyle {
+  return GoogleFonts.lato(
+      textStyle: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: Get.isDarkMode? Colors.grey.shade100 : Colors.grey.shade600
       )
   );
 }
