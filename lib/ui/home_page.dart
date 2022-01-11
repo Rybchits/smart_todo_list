@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_todo_list/services/notification_services.dart';
 import 'package:smart_todo_list/services/theme_services.dart';
+import 'package:smart_todo_list/ui/add_task_page.dart';
 import 'package:smart_todo_list/ui/theme.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:smart_todo_list/ui/widgets/button.dart';
@@ -121,7 +122,7 @@ class _HomePageState extends State<HomePage> {
           Text(DateFormat.yMMMMd('ru').format(DateTime.now()), style: subHeadingStyle),
           Text('Сегодня', style: headingStyle)
         ]),
-        CustomButton(text: '+ Добавить', onTab: () => null),
+        CustomButton(text: '+ Добавить', onTab: () => Get.to(AddTaskPage())),
       ]),
     );
   }
