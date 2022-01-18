@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_todo_list/entities/repeat_enum.dart';
+import 'package:smart_todo_list/entities/task.dart';
 import 'package:smart_todo_list/ui/theme.dart';
 import 'package:smart_todo_list/ui/widgets/button.dart';
 import 'package:smart_todo_list/ui/widgets/input_field.dart';
@@ -27,8 +28,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
   RepeatEnum _selectedRepeat = RepeatEnum.none;
 
   int _indexSelectedColor = 0;
-  List<Color> availableColors = [bluishClr, yellowClr, pinkClr];
-
 
   @override
   void dispose() {
@@ -234,7 +233,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       children: [
         Text('Цвета', style: titleStyle),
         const SizedBox(height: 10),
-        Wrap(children: List<Widget>.generate(availableColors.length, (index) =>
+        Wrap(children: List<Widget>.generate(Task.availableColors.length, (index) =>
             GestureDetector(
               onTap: () { setState(() {
                 _indexSelectedColor = index;
@@ -244,7 +243,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 child: Icon(
                   _indexSelectedColor == index? Icons.check_circle : Icons.circle,
                   size: 36,
-                  color: availableColors[index],
+                  color: Task.availableColors[index],
                 ),
               ),
             ))
