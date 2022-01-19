@@ -38,7 +38,7 @@ class Task {
     date = DateTime.parse(json['date']);
     startTime = TimeOfDay.fromDateTime(DateTime.parse(json['startTime']));
     endTime = TimeOfDay.fromDateTime(DateTime.parse(json['endTime']));
-    indexColor = json['indexColor'];
+    indexColor = json['color'];
     remind = json['remind'];
     repeat = RepeatEnum.values[json['repeat'] ?? 0];
   }
@@ -54,7 +54,7 @@ class Task {
     data['date'] = date?.toIso8601String() ?? DateTime.now().toIso8601String();
     data['startTime'] = DateTime(now.year, now.month, now.day, startTime?.hour ?? 0, startTime?.minute ?? 0).toIso8601String();
     data['endTime'] = DateTime(now.year, now.month, now.day, endTime?.hour ?? 0, endTime?.minute ?? 0).toIso8601String();
-    data['indexColor'] = indexColor;
+    data['color'] = indexColor;
     data['repeat'] = repeat?.index;
     data['remind'] = remind;
     return data;

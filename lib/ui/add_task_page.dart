@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:smart_todo_list/controllers/task_controller.dart';
 import 'package:smart_todo_list/entities/repeat_enum.dart';
 import 'package:smart_todo_list/entities/task.dart';
 import 'package:smart_todo_list/ui/theme.dart';
@@ -15,6 +16,7 @@ class AddTaskPage extends StatefulWidget {
 }
 
 class _AddTaskPageState extends State<AddTaskPage> {
+  final _taskController = Get.put(TaskController());
   final _titleController = TextEditingController();
   final _noteController = TextEditingController();
 
@@ -222,7 +224,21 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   Future<void> _createTask() async{
     if (_validateCurrentTask()) {
+
       // Добавление в базу данных
+      await _taskController.addTask(task: Task(
+          note: _noteController.text,
+          title: _titleController.text,
+          date: _selectedDate,
+          startTime: _startTime,
+          endTime: _endTime,
+          repeat: _selectedRepeat,
+          indexColor: _indexSelectedColor,
+          isCompleted: false,
+          remind: _selectedRemind
+      ));
+
+      // Вернуться на главную страницу
       Get.back();
     }
   }
