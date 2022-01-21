@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:smart_todo_list/entities/repeat_enum.dart';
 import 'package:smart_todo_list/ui/theme.dart';
 
@@ -58,5 +59,9 @@ class Task {
     data['repeat'] = repeat?.index;
     data['remind'] = remind;
     return data;
+  }
+
+  static String timeOfDayToString(TimeOfDay value){
+    return DateFormat('hh:mm a').format(DateTime(0, 1, 1, value.hour, value.minute)).toString();
   }
 }

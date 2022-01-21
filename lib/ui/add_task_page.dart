@@ -66,8 +66,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   Expanded(
                     child: CustomInputField(
                       title: 'Начало',
-                      hint:
-                          DateFormat('hh:mm a').format(DateTime(0, 1, 1, _startTime.hour, _startTime.minute)).toString(),
+                      hint: Task.timeOfDayToString(_startTime),
                       widget: IconButton(
                         icon: const Icon(Icons.access_time_rounded, color: Colors.grey),
                         onPressed: () => _getTimeFromUser().then((value) => setState(() {_startTime = value ?? _startTime;})),
@@ -78,7 +77,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   Expanded(
                     child: CustomInputField(
                       title: 'Конец',
-                      hint: DateFormat('hh:mm a').format(DateTime(0, 1, 1, _endTime.hour, _endTime.minute)).toString(),
+                      hint: Task.timeOfDayToString(_endTime),
                       widget: IconButton(
                         icon: const Icon(Icons.access_time_rounded, color: Colors.grey),
                         onPressed: () => _getTimeFromUser().then((value) => setState(() {_endTime = value ?? _endTime;})),
