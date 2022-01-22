@@ -1,14 +1,18 @@
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:smart_todo_list/controllers/task_controller.dart';
+import 'package:smart_todo_list/entities/task.dart';
 import 'package:smart_todo_list/services/notification_services.dart';
 import 'package:smart_todo_list/services/theme_services.dart';
 import 'package:smart_todo_list/ui/add_task_page.dart';
 import 'package:smart_todo_list/ui/theme.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:smart_todo_list/ui/widgets/button.dart';
+import 'package:smart_todo_list/ui/widgets/task_tile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,11 +24,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late NotificationService notifyHelper;
   DateTime _selectedDate = DateTime.now();
+  final _taskController = Get.put(TaskController());
 
   @override
   void initState() {
     notifyHelper = NotificationService()..initializeNotification();
     initializeDateFormatting();
+    _taskController.getTasks();
     super.initState();
   }
 
@@ -34,7 +40,8 @@ class _HomePageState extends State<HomePage> {
       appBar: _appBar(),
       body: Column(children: [
         _addTaskBar(),
-        _addDateBar()
+        _addDateBar(),
+        _showTasks()
       ]),
     );
   }
@@ -122,8 +129,93 @@ class _HomePageState extends State<HomePage> {
           Text(DateFormat.yMMMMd('ru').format(DateTime.now()), style: subHeadingStyle),
           Text('Сегодня', style: headingStyle)
         ]),
-        CustomButton(text: '+ Добавить', onTab: () => Get.to(AddTaskPage())),
+        CustomButton(text: '+ Добавить', onTab: () async {
+          await Get.to(() => AddTaskPage());
+          _taskController.getTasks();
+        }),
       ]),
+    );
+  }
+
+  _showTasks(){
+    return Expanded(
+      child: Obx(() {
+        return ListView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            itemCount: _taskController.taskList.length,
+            itemBuilder: (_, index) {
+              Task task = _taskController.taskList[index];
+              return AnimationConfiguration.staggeredList(
+                  position: index,
+                  child: FadeInAnimation(
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () => _showBottomSheet(context, task),
+                            child: TaskTile(task),
+                          )
+                        ],
+                      )
+                  )
+              );
+            });
+      }),
+    );
+  }
+
+  _showBottomSheet(BuildContext context, Task task){
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.only(top: 4),
+        height: MediaQuery.of(context).size.height * 0.25,
+        color: Theme.of(context).backgroundColor,
+        child: Column(
+          children: [
+            Container(
+              height: 6,
+              width: 120,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Get.isDarkMode? Colors.grey.shade600 : Colors.grey.shade300
+              ),
+            ),
+            const SizedBox(height: 30),
+            _bottomSheetButton(
+                color: bluishClr,
+                label: task.isCompleted ?? false? 'Отметить невыполненной' : 'Выполнить задачу',
+                onClick: () {
+                  _taskController.switchIsCompletedTask(task);
+                  Get.back();
+                }),
+            _bottomSheetButton(
+                color: pinkClr,
+                label: 'Удалить задачу',
+                onClick: () {
+                  _taskController.delete(task);
+                  Get.back();
+                })
+          ],
+        ),
+      )
+    );
+  }
+
+  Widget _bottomSheetButton({required String label, Color color = bluishClr, Function()? onClick}){
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 50,
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          textStyle: const TextStyle(fontSize: 20),
+          primary: color,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12), // <-- Radius
+          ),
+        ),
+        onPressed: onClick,
+        child: Text(label),
+      ),
     );
   }
 }

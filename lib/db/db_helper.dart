@@ -41,4 +41,21 @@ class DBHelper{
     // Возвращает id последней добавленной записи
     return await _db?.insert(_tableName, task.toJson()) ?? 0;
   }
+
+  static Future<List<Map<String, dynamic>>> query() async{
+    log("query function called");
+    return await _db?.query(_tableName) ?? [];
+  }
+
+  static Future<void> delete(Task task) async{
+    await _db?.delete(_tableName, where: "id=?", whereArgs: [task.id]);
+  }
+
+  static Future<void> updateIsCompletedTask(int idTask, int isCompletedValue) async{
+    await _db?.rawUpdate('''
+    UPDATE tasks
+    SET isCompleted = ?
+    WHERE id = ?
+    ''', [isCompletedValue, idTask]);
+  }
 }
