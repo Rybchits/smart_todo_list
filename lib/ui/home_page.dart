@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_todo_list/controllers/task_controller.dart';
+import 'package:smart_todo_list/entities/repeat_enum.dart';
 import 'package:smart_todo_list/entities/task.dart';
 import 'package:smart_todo_list/services/notification_services.dart';
 import 'package:smart_todo_list/services/theme_services.dart';
@@ -116,7 +117,7 @@ class _HomePageState extends State<HomePage> {
             )
         ),
         locale: 'ru',
-        onDateChange: (date) => _selectedDate = date,
+        onDateChange: (date) => setState((){_selectedDate = date;}),
       ),
     );
   }
@@ -145,7 +146,28 @@ class _HomePageState extends State<HomePage> {
             itemCount: _taskController.taskList.length,
             itemBuilder: (_, index) {
               Task task = _taskController.taskList[index];
-              return AnimationConfiguration.staggeredList(
+
+              // Дата этой задачи в будущем
+              bool isFutureTask = _selectedDate.isBefore(task.date ?? DateTime.now());
+              bool showTask = false;
+
+              switch(task.repeat ?? RepeatEnum.none){
+                case RepeatEnum.none:
+                  showTask = task.date?.year == _selectedDate.year
+                      && task.date?.month == _selectedDate.month && task.date?.day == _selectedDate.day;
+                  break;
+                case RepeatEnum.daily:
+                  showTask = !isFutureTask;
+                  break;
+                case RepeatEnum.weekly:
+                  showTask = !isFutureTask && _selectedDate.difference(task.date ?? DateTime.now()).inDays % 7 == 0;
+                  break;
+                case RepeatEnum.monthly:
+                  showTask = !isFutureTask && _selectedDate.day == (task.date ?? DateTime.now()).day;
+                  break;
+              }
+
+              return showTask? AnimationConfiguration.staggeredList(
                   position: index,
                   child: FadeInAnimation(
                       child: Row(
@@ -157,7 +179,7 @@ class _HomePageState extends State<HomePage> {
                         ],
                       )
                   )
-              );
+              ) : Container();
             });
       }),
     );
