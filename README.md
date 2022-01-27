@@ -1,16 +1,24 @@
-# smart_todo_list
+# Проект по изучению фреймворка Flutter
 
-Mobile application. For styding Flutter
+Создаем мобильное приложение для менеджмента задач Smart-ToDo.
 
-## Getting Started
+## Список технологий (библиотек)
 
-This project is a starting point for a Flutter application.
+В процессе написания данного приложения я ознакомился:
 
-A few resources to get you started if this is your first Flutter project:
+- Библиотека для state-management, навигации и удобного внедрения зависимостей __GetX__
+- Библиотека для удобного сохранения локальных данных __GetStorage__
+- Библиотека для локальных уведомлений __flutter_local_notifications__
+- Работа с локализацией __intl__ и часовыми зонами __timezone__
+- Работа с базой данных Sqlite __sqflite__
+- Ознакомился с анимацией __flutter_staggered_animations__
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+![Главная страница в темной теме](./screens/dark_main.jpg)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Добавление задачи в темной теме](./screens/dark_add.jpg)
+
+![Главная страница в светлой теме](./screens/light_main.jpg)
+
+![Добавление задачи в светлой теме](./screens/light_add.jpg)
+
+
